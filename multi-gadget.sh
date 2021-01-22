@@ -35,42 +35,26 @@ ln -s $GADGET_PATH/functions/uvc.usb0/control/header/h $GADGET_PATH/functions/uv
 # ln -s $GADGET_PATH/functions/uvc.usb0/control/header/h $GADGET_PATH/functions/uvc.usb0/control/class/hs/h
 # ln -s $GADGET_PATH/functions/uvc.usb0/control/header/h $GADGET_PATH/functions/uvc.usb0/control/class/ss/h
 
-config_frame () {
-    FORMAT=$1
-    NAME=$2
-	WIDTH=$3
-	HEIGHT=$4
-	
-    framedir=$GADGET_PATH/functions/uvc.usb0/streaming/$FORMAT/$NAME/${HEIGHT}p
+FORMAT="mjpeg"
+NAME="m"
+WIDTH=1920
+HEIGHT=1080
 
-    mkdir -p $framedir
+framedir=$GADGET_PATH/functions/uvc.usb0/streaming/$FORMAT/$NAME/${HEIGHT}p
 
-    echo $WIDTH > $framedir/wWidth
-    echo $HEIGHT > $framedir/wHeight
-    echo 333333 > $framedir/dwDefaultFrameInterval
-    echo $(($WIDTH * $HEIGHT * 80)) > $framedir/dwMinBitRate
-    echo $(($WIDTH * $HEIGHT * 160)) > $framedir/dwMaxBitRate
-    echo $(($WIDTH * $HEIGHT * 2)) > $framedir/dwMaxVideoFrameBufferSize
-    cat <<EOF > $framedir/dwFrameInterval
+mkdir -p $framedir
+
+echo $WIDTH > $framedir/wWidth
+echo $HEIGHT > $framedir/wHeight
+echo 333333 > $framedir/dwDefaultFrameInterval
+echo $(($WIDTH * $HEIGHT * 80)) > $framedir/dwMinBitRate
+echo $(($WIDTH * $HEIGHT * 160)) > $framedir/dwMaxBitRate
+echo $(($WIDTH * $HEIGHT * 2)) > $framedir/dwMaxVideoFrameBufferSize
+cat <<EOF > $framedir/dwFrameInterval
 333333
 400000
 666666
 EOF
-
-}
-
-config_frame mjpeg m 640 360
-config_frame mjpeg m 640 480
-config_frame mjpeg m 800 600
-config_frame mjpeg m 1024 768
-config_frame mjpeg m 1280 720
-config_frame mjpeg m 1280 960
-config_frame mjpeg m 1440 1080
-config_frame mjpeg m 1536 864
-config_frame mjpeg m 1600 900
-config_frame mjpeg m 1600 1200
-config_frame mjpeg m 1920 1080
-
 
 mkdir $GADGET_PATH/functions/uvc.usb0/streaming/header/h
 cd $GADGET_PATH/functions/uvc.usb0/streaming/header/h
